@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "product": "Laptop",
+    "price": 999.99,
+    "inStock": true
+  },
+  {
+    "id": 2,
+    "product": "Mouse",
+    "price": 25.50,
+    "inStock": false
+  },
+  {
+    "id": 3,
+    "product": "Keyboard",
+    "price": 75.00,
+    "inStock": true,
+    "description": null
+  }
+]

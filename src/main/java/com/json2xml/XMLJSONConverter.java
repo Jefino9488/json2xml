@@ -1,0 +1,104 @@
+package com.json2xml;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+/**
+ * Implementation of XMLJSONConverterI that converts any valid JSON into XML
+ * following the specified mapping.
+ */
+public class XMLJSONConverter implements XMLJSONConverterI {
+
+    public XMLJSONConverter() {
+    }
+
+    public Document convert(JsonNode json) throws Exception {
+        if (json == null || (!json.isObject() && !json.isArray())) {
+            throw new IllegalArgumentException("Top-level JSON must be an object or an array");
+        }
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(false);
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.newDocument();
+
+        Element root;
+        if (json.isObject()) {
+            root = doc.createElement("object");
+            doc.appendChild(root);
+            writeObject((ObjectNode) json, root, doc);
+        } else {
+            root = doc.createElement("array");
+            doc.appendChild(root);
+            writeArray((ArrayNode) json, root, doc);
+        }
+        return doc;
+    }
+
+    private void writeObject(ObjectNode objectNode, Element parent, Document doc) {
+        java.util.Iterator<java.util.Map.Entry<String, JsonNode>> fields = objectNode.fields();
+        while (fields.hasNext()) {
+            java.util.Map.Entry<String, JsonNode> e = fields.next();
+            String name = e.getKey();
+            JsonNode value = e.getValue();
+            Element child = createElementForNode(value, doc);
+            // Only <object> elements representing object fields may carry name attribute
+            if ("object".equals(child.getTagName())) {
+                child.setAttribute("name", name);
+            }
+            parent.appendChild(child);
+            appendContent(value, child, doc);
+        }
+    }
+
+    private void writeArray(ArrayNode arrayNode, Element parent, Document doc) {
+        for (int i = 0; i < arrayNode.size(); i++) {
+            JsonNode value = arrayNode.get(i);
+            Element child = createElementForNode(value, doc);
+            // no name attribute for array items
+            parent.appendChild(child);
+            appendContent(value, child, doc);
+        }
+    }
+
+    private Element createElementForNode(JsonNode node, Document doc) {
+        if (node == null || node.isNull()) {
+            return doc.createElement("null");
+        } else if (node.isTextual()) {
+            return doc.createElement("string");
+        } else if (node.isNumber()) {
+            return doc.createElement("number");
+        } else if (node.isBoolean()) {
+            return doc.createElement("boolean");
+        } else if (node.isArray()) {
+            return doc.createElement("array");
+        } else if (node.isObject()) {
+            return doc.createElement("object");
+        } else {
+            // Fallback: treat as string
+            return doc.createElement("string");
+        }
+    }
+
+    private void appendContent(JsonNode node, Element element, Document doc) {
+        if (node == null || node.isNull()) {
+            // null is self-closing (<null/>) - ensure no text or children
+            return;
+        } else if (node.isTextual()) {
+            element.appendChild(doc.createTextNode(node.textValue()));
+        } else if (node.isNumber()) {
+            element.appendChild(doc.createTextNode(node.numberValue().toString()));
+        } else if (node.isBoolean()) {
+            element.appendChild(doc.createTextNode(node.booleanValue() ? "true" : "false"));
+        } else if (node.isArray()) {
+            writeArray((ArrayNode) node, element, doc);
+        } else if (node.isObject()) {
+            writeObject((ObjectNode) node, element, doc);
+        }
+    }
+}
