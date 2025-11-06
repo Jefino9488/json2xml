@@ -47,10 +47,7 @@ public class XMLJSONConverter implements XMLJSONConverterI {
             String name = e.getKey();
             JsonNode value = e.getValue();
             Element child = createElementForNode(value, doc);
-            // Only <object> elements representing object fields may carry name attribute
-            if ("object".equals(child.getTagName())) {
-                child.setAttribute("name", name);
-            }
+            child.setAttribute("name", name);
             parent.appendChild(child);
             appendContent(value, child, doc);
         }
