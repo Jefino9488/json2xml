@@ -11,10 +11,14 @@ A command-line tool that converts JSON files to XML format with a structured map
 - Command-line interface
 - Self-contained executable JAR
 
+## Download
+
+Download the latest pre-built JAR from [GitHub Releases](https://github.com/yourname/json2xml/releases).
+
 ## Prerequisites
 
 - Java 7 or newer
-- Apache Maven 3+ (for building)
+- Apache Maven 3+ (for building from source)
 
 ## Building
 
@@ -142,4 +146,3 @@ src/
 ## Dependencies
 
 - Jackson Databind 2.9.10 - JSON parsing and processing
-- JUnit 3.8.1 - Unit testing (test scope)
