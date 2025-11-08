@@ -1,55 +1,46 @@
 # JSON to XML Converter
 
-A Java 7 compatible command-line tool that converts JSON files to XML format with a structured mapping specification.
-
-## Overview
-
-This project provides a simple yet powerful JSON to XML converter that transforms any valid JSON (object or array at top-level) into well-formed, pretty-printed XML using a consistent mapping scheme.
+A command-line tool that converts JSON files to XML format with a structured mapping specification.
 
 ## Features
 
-- ✅ Converts any valid JSON to XML
-- ✅ Preserves data types with specific XML tags
-- ✅ Handles nested objects and arrays
-- ✅ Pretty-printed XML output with proper indentation
-- ✅ Java 7 compatible
-- ✅ Command-line interface
-- ✅ Self-contained executable JAR
+- Converts any valid JSON to XML
+- Preserves data types with specific XML tags
+- Handles nested objects and arrays
+- Pretty-printed XML output with proper indentation
+- Command-line interface
+- Self-contained executable JAR
 
 ## Prerequisites
 
-- Java 7 or newer (JDK configured to compile with source/target 1.7)
-- Apache Maven 3+
+- Java 7 or newer
+- Apache Maven 3+ (for building)
 
 ## Building
 
-To build the project:
+Build the project:
 
 ```bash
 mvn clean package
 ```
 
-This produces an executable, shaded JAR at:
+This produces an executable JAR at:
 ```
-target/json2xml-1.0-SNAPSHOT.jar
+target/json2xml-2.0.jar
 ```
 
 ## Usage
 
-### Command Line
+Run the converter with two arguments:
 
 ```bash
-java -jar target/json2xml-1.0-SNAPSHOT.jar <input.json> <output.xml>
+java -jar target/json2xml-2.0.jar <input.json> <output.xml>
 ```
 
-The program expects exactly two arguments:
-1. The input JSON file path
-2. The output XML file path
-
-### Example
+Example:
 
 ```bash
-java -jar target/json2xml-1.0-SNAPSHOT.jar test3.json test3.xml
+java -jar target/json2xml-2.0.jar test3.json test3.xml
 ```
 
 ## Mapping Specification
@@ -143,45 +134,12 @@ For object fields, the corresponding element includes a `name` attribute with th
 
 ```
 src/
-├── main/java/com/json2xml/
-│   ├── Main.java                    # Entry point and CLI handling
-│   ├── XMLJSONConverterI.java       # Interface for converter
-│   ├── XMLJSONConverter.java        # Core conversion logic
-│   └── ConverterFactory.java        # Factory for converter instances
-└── test/java/org/json2xml/
-    └── AppTest.java                 # Unit tests
+└── main/java/com/json2xml/
+    ├── Main.java              # Entry point and CLI handling
+    └── XMLJSONConverter.java  # Core conversion logic
 ```
 
 ## Dependencies
 
-- **Jackson Databind 2.9.10** - JSON parsing and processing
-  - [GitHub Repository](https://github.com/FasterXML/jackson-databind)
-- **JUnit 3.8.1** - Unit testing (test scope)
-
-## Java 7 Compatibility
-
-- The project is configured to compile with `source=1.7` and `target=1.7` via the Maven Compiler Plugin
-- No Java 8+ language features are used
-- Compatible with Java 7 runtime environments
-
-## Build Configuration
-
-The project uses Maven with the following key plugins:
-- **Maven Compiler Plugin** - Java compilation (configured for Java 21 in practice, but compatible with Java 7)
-- **Maven Shade Plugin** - Creates executable JAR with all dependencies
-
-## License
-
-This project is open source. Please check the license file for details.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## Issues
-
-If you encounter any issues or have feature requests, please file them in the project's issue tracker.
+- Jackson Databind 2.9.10 - JSON parsing and processing
+- JUnit 3.8.1 - Unit testing (test scope)
