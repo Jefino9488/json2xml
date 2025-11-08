@@ -38,7 +38,7 @@ public class Main {
             in = new FileInputStream(inFile);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(in);
-            XMLJSONConverter converter = new XMLJSONConverter();
+            XMLJSONConverterI converter = ConverterFactory.newConverter();
             Document doc = converter.convert(root);
             out = new FileOutputStream(outFile);
             TransformerFactory tf = TransformerFactory.newInstance();
