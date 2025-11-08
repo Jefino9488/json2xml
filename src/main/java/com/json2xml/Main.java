@@ -15,9 +15,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Main entry point. Accepts exactly two arguments: input.json output.xml
- */
 public class Main {
 
     public static void main(String[] args) {

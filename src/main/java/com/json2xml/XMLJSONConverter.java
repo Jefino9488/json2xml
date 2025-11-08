@@ -9,10 +9,6 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-/**
- * Implementation of XMLJSONConverterI that converts any valid JSON into XML
- * following the specified mapping.
- */
 public class XMLJSONConverter implements XMLJSONConverterI {
 
     public XMLJSONConverter() {
@@ -20,7 +16,7 @@ public class XMLJSONConverter implements XMLJSONConverterI {
 
     public Document convert(JsonNode json) throws Exception {
         if (json == null || (!json.isObject() && !json.isArray())) {
-            throw new IllegalArgumentException("Top-level JSON must be an object or an array");
+            throw new IllegalArgumentException("JSON must be an object or an array");
         }
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
@@ -57,7 +53,6 @@ public class XMLJSONConverter implements XMLJSONConverterI {
         for (int i = 0; i < arrayNode.size(); i++) {
             JsonNode value = arrayNode.get(i);
             Element child = createElementForNode(value, doc);
-            // no name attribute for array items
             parent.appendChild(child);
             appendContent(value, child, doc);
         }
@@ -84,7 +79,6 @@ public class XMLJSONConverter implements XMLJSONConverterI {
 
     private void appendContent(JsonNode node, Element element, Document doc) {
         if (node == null || node.isNull()) {
-            // null is self-closing (<null/>) - ensure no text or children
             return;
         } else if (node.isTextual()) {
             element.appendChild(doc.createTextNode(node.textValue()));
