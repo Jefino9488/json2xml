@@ -61,6 +61,6 @@ public class Main {
     }
 
     private static void printUsage() {
-        System.out.println("Usage: java -jar target/json2xml-1.0-SNAPSHOT.jar <input.json> <output.xml>");
+        System.out.println("Usage: java -jar json2xml-2.0.jar <input.json> <output.xml>");
     }
 }
