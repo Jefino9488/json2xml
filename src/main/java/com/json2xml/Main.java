@@ -38,21 +38,16 @@ public class Main {
             in = new FileInputStream(inFile);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(in);
-
-            XMLJSONConverterI converter = ConverterFactory.newConverter();
+            XMLJSONConverter converter = new XMLJSONConverter();
             Document doc = converter.convert(root);
-
-            // Pretty-print XML to output file
             out = new FileOutputStream(outFile);
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer();
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            // Xalan-specific property for indentation amount (works with default JDK transformer)
             try {
                 transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             } catch (IllegalArgumentException e) {
-                // ignore if transformer doesn't support this property
             }
             transformer.transform(new DOMSource(doc), new StreamResult(out));
         } catch (Exception e) {

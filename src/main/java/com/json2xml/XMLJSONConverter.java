@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class XMLJSONConverter implements XMLJSONConverterI {
+public class XMLJSONConverter {
 
     public XMLJSONConverter() {
     }
